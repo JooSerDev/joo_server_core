@@ -57,7 +57,9 @@ public class EncryptUtil {
 		if (password == null) {
 			password = AES_DEFAULT_KEY;
 		}
-		kgen.init(128, new SecureRandom(password.getBytes()));
+		SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+		secureRandom.setSeed(password.getBytes());
+		kgen.init(128, secureRandom);
 		SecretKey secretKey = kgen.generateKey();
 		byte[] enCodeFormat = secretKey.getEncoded();
 		SecretKeySpec key = new SecretKeySpec(enCodeFormat, KEY_AES);
@@ -97,7 +99,9 @@ public class EncryptUtil {
 	public static byte[] decryptAES(byte[] content, String password) throws NoSuchAlgorithmException,
 			NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 		KeyGenerator kgen = KeyGenerator.getInstance(KEY_AES);
-		kgen.init(128, new SecureRandom(password.getBytes()));
+		SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+		secureRandom.setSeed(password.getBytes());
+		kgen.init(128, secureRandom);
 		SecretKey secretKey = kgen.generateKey();
 		byte[] enCodeFormat = secretKey.getEncoded();
 		SecretKeySpec key = new SecretKeySpec(enCodeFormat, KEY_AES);
