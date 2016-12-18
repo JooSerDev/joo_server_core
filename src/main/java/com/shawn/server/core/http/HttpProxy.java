@@ -20,6 +20,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
+import com.shawn.server.core.exception.HttpRequestAbortedException;
+
 public class HttpProxy {
 
 	private final static Logger logger = Logger.getLogger(HttpProxy.class);
@@ -33,6 +35,10 @@ public class HttpProxy {
 			CloseableHttpResponse response = httpclient.execute(httpPost);
 
 			try {
+				int statusCode = response.getStatusLine().getStatusCode();
+				if (statusCode != 200) {
+					throw new HttpRequestAbortedException(statusCode + "");
+				}
 				HttpEntity entity = response.getEntity();
 				String responseContent = EntityUtils.toString(entity, "UTF-8");
 				return responseContent;

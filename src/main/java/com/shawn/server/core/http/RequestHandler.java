@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSONObject;
+import com.shawn.server.core.util.JsonUtil;
 import com.shawn.server.core.util.StringUtil;
 
 /**
@@ -49,6 +51,19 @@ public class RequestHandler {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 取得HTTP Payload 内容
+	 * 
+	 * @param request
+	 * @return
+	 * @throws IOException
+	 */
+	public static JSONObject getJson(HttpServletRequest request) throws IOException {
+		String payload = getString(request);
+		JSONObject pl = (JSONObject) JsonUtil.JsonObjStr2Json(payload);
+		return pl;
 	}
 
 	public static String getIpAddr(HttpServletRequest request) throws UnknownHostException {

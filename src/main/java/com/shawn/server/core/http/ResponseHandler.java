@@ -46,7 +46,14 @@ public class ResponseHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 
+	public static void sendError(HttpServletResponse response, int code) {
+		try {
+			response.sendError(code);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
